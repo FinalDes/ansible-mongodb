@@ -1,4 +1,6 @@
 ---
 # vars file for mongodb
 key:
+  3.4: 0C49F3730359A14518585931BC711F9BA15703C6
   3.2: EA312927
+  3.0: 7F0CEB10
