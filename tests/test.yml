@@ -2,5 +2,5 @@
 - hosts: localhost
   remote_user: root
   roles:
-    - roles: mongodb
+    - role: ansible-mongodb
       version: 3.4
