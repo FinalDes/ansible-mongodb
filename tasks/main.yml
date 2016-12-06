@@ -1,16 +1,18 @@
 ---
 - name: Import the public key
-  apt_key: keyserver=keyserver.ubuntu.com id=EA312927
+  apt_key:
+    keyserver: keyserver.ubuntu.com
+    id: '{{key[version]}}'
 - name: add repository ubuntu
   apt_repository:
-    repo: 'deb http://repo.mongodb.org/apt/ubuntu {{ansible_distribution_release}}/mongodb-org/3.2 multiverse'
+    repo: 'deb http://repo.mongodb.org/apt/ubuntu {{ansible_distribution_release}}/mongodb-org/{{version}} multiverse'
     state: present
     filename: 'mongodb'
     update_cache: yes
   when: ansible_distribution == 'Ubuntu'
 - name: add repository debian
   apt_repository:
-    repo: 'deb http://repo.mongodb.org/apt/debian {{ansible_distribution_release}}/mongodb-org/3.2 multiverse'
+    repo: 'deb http://repo.mongodb.org/apt/debian {{ansible_distribution_release}}/mongodb-org/{{version}} multiverse'
     state: present
     filename: 'mongodb'
     update_cache: yes
