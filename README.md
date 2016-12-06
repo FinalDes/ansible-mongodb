@@ -1,7 +1,9 @@
 MongoDB Setup
 =========
 
-A brief description of the role goes here.
+[![Build Status](https://travis-ci.org/FinalDes/ansible-mongodb.svg?branch=master)](https://travis-ci.org/FinalDes/ansible-mongodb)
+
+Basic MongoDB Setup
 
 Requirements
 ------------
