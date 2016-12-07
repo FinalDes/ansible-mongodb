@@ -18,12 +18,24 @@
     update_cache: yes
   when: ansible_distribution == 'Debian'
 - name: install mongodb
-  apt: name=mongodb-org state=present
+  apt:
+    name: mongodb-org
+    state: present
 - name: start mongodb service
-  service: name=mongod state=started enabled=yes
+  service:
+    name: mongod
+    state: started
+    enabled: yes
 - name: copy disable-transparent-hugepages script
-  copy: src={{ role_path }}/files/disable-transparent-hugepages dest=/etc/init.d/disable-transparent-hugepages owner=root group=root mode=0755
+  copy:
+    src: "{{ role_path }}/files/disable-transparent-hugepages"
+    dest: /etc/init.d/disable-transparent-hugepages
+    owner: root
+    group: root
+    mode: 0755
 - name: configure disable-transparent-hugepages
   shell: update-rc.d disable-transparent-hugepages defaults
 - name: check mongodb online
-  wait_for: port=27017 delay=1
+  wait_for:
+    port: 27017
+    delay: 1
