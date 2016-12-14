@@ -21,7 +21,9 @@ systemLog:
 # network interfaces
 net:
   port: {{net.port}}
-  bindIp: {% for ip in net.bindIp %}{{ip}} {% endfor %}
+  bindIp: {% for ip in net.bindIp -%}
+    {{ip}}{%- if not loop.last -%},{% endif %}
+  {%- endfor %}
 
 
 #processManagement:
