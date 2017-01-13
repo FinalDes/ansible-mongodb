@@ -32,7 +32,10 @@ net:
 
 #operationProfiling:
 
-#replication:
+{% if replication is defined %}
+replication:
+  replSetName: {{replication.replSetName}}
+{% endif %}
 
 #sharding:
 
