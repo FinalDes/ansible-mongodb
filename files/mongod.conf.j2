@@ -28,13 +28,19 @@ net:
 
 #processManagement:
 
-#security:
+{% if security is defined %}
+security:
+  authorization: {% if security.authorization %} enabled {% else %} disabled {% endif %}
+{% else %}#security {% endif %}
+
 
 #operationProfiling:
 
 {% if replication is defined %}
 replication:
   replSetName: {{replication.replSetName}}
+{% else %}
+#replication:
 {% endif %}
 
 #sharding:
