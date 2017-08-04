@@ -30,7 +30,7 @@ net:
 
 {% if security is defined %}
 security:
-  authorization: {% if security.authorization %} enabled {% else %} disabled {% endif %}
+  authorization: {% if security.authorization %}enabled{% else %}disabled{% endif %}
 {% else %}#security {% endif %}
 
 
