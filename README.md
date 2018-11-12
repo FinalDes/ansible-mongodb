@@ -8,7 +8,7 @@ Basic MongoDB Setup
 Role Variables
 --------------
 
-**version:** mongodb version  
+**version:** mongodb version support `4.0, 3.6, 3.4, 3.2, 3.0`  
 **port:** mongodbdb port default `27017`  
 **bindIp:** mongodb access IP Address default `127.0.0.1`  
 **dbPath:** mongodb storage path default `/var/lib/mongodb`
