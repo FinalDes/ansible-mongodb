@@ -5,6 +5,11 @@ MongoDB Setup
 
 Basic MongoDB Setup
 
+Requirements
+---
+
+Please look official document ubuntu and debian version support before run the task. This role will not check if the ubuntu and debian OS host is support or not.
+
 Role Variables
 --------------
 
