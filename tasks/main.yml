@@ -44,5 +44,5 @@
 - name: config mongodb
   template:
     src: "{{ role_path }}/files/mongod.conf.j2"
-    dest: "{{config_path}}"
+    dest: "{{ config_path }}"
   when: config_path is defined
