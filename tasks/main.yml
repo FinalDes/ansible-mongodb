@@ -5,14 +5,14 @@
     id: '{{key[version]}}'
 - name: add repository ubuntu
   apt_repository:
-    repo: 'deb http://repo.mongodb.org/apt/ubuntu {{ansible_distribution_release}}/mongodb-org/{{version}} multiverse'
+    repo: 'deb http://repo.mongodb.org/apt/ubuntu {{ ansible_distribution_release }}/mongodb-org/{{ version }} multiverse'
     state: present
     filename: 'mongodb'
     update_cache: yes
   when: ansible_distribution == 'Ubuntu'
 - name: add repository debian
   apt_repository:
-    repo: 'deb http://repo.mongodb.org/apt/debian {{ansible_distribution_release}}/mongodb-org/{{version}} multiverse'
+    repo: 'deb http://repo.mongodb.org/apt/debian {{ ansible_distribution_release }}/mongodb-org/{{ version }} multiverse'
     state: present
     filename: 'mongodb'
     update_cache: yes
@@ -32,9 +32,11 @@
     dest: /etc/init.d/disable-transparent-hugepages
     owner: root
     group: root
-    mode: 0755
+    mode: '0755'
+  register: DisableTransparentHugepages
 - name: configure disable-transparent-hugepages
   shell: update-rc.d disable-transparent-hugepages defaults
+  when: DisableTransparentHugepages.changed
 - name: check mongodb online
   wait_for:
     port: 27017
