@@ -5,3 +5,5 @@
     name: mongod
     state: restarted
     enabled: yes
+- name: configure disable-transparent-hugepages
+  shell: update-rc.d disable-transparent-hugepages defaults
