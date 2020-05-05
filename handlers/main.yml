@@ -6,9 +6,6 @@
     state: restarted
     enabled: yes
     daemon_reload: yes
-- name: systemd reload
-  systemd:
-    daemon_reload: yes
 - name: configure disable-transparent-hugepages
   systemd:
     name: disable-transparent-hugepages
