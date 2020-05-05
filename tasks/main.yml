@@ -1,7 +1,7 @@
 ---
 - name: Import the public key
   apt_key:
-    url: https://www.mongodb.org/static/pgp/server-{version}.asc
+    url: https://www.mongodb.org/static/pgp/server-{{version}}.asc
     id: '{{ key[version] }}'
 - name: add repository ubuntu
   apt_repository:
