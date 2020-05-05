@@ -1,11 +1,11 @@
 ---
 - name: Import the public key
   apt_key:
-    keyserver: keyserver.ubuntu.com
+    url: https://www.mongodb.org/static/pgp/server-{version}.asc
     id: '{{ key[version] }}'
 - name: add repository ubuntu
   apt_repository:
-    repo: 'deb http://repo.mongodb.org/apt/ubuntu {{ ansible_distribution_release }}/mongodb-org/{{ version }} multiverse'
+    repo: 'deb [ arch=amd64,arm64 ] https://repo.mongodb.org/apt/ubuntu {{ ansible_distribution_release }}/mongodb-org/{{ version }} multiverse'
     state: present
     filename: 'mongodb'
     update_cache: yes
@@ -29,11 +29,13 @@
 - name: copy disable-transparent-hugepages script
   copy:
     src: "{{ role_path }}/files/disable-transparent-hugepages.systemd"
-    dest: /etc/systemd/system/disable-transparent-huge-pages.service
+    dest: "/etc/systemd/system/disable-transparent-huge-pages.service"
     owner: root
     group: root
     mode: '0755'
-    notify:
+  become: true
+  notify:
+    - systemd reload
     - configure disable-transparent-hugepages
 # - name: copy disable-transparent-hugepages script
 #   copy:

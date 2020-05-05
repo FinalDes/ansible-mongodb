@@ -5,11 +5,14 @@
     name: mongod
     state: restarted
     enabled: yes
+    daemon_reload: yes
+- name: systemd reload
+  systemd:
+    daemon_reload: yes
 - name: configure disable-transparent-hugepages
   systemd:
     name: disable-transparent-hugepages
     state: started
     enabled: yes
-    daemon_reload: yes
 # - name: configure disable-transparent-hugepages
 #   shell: update-rc.d disable-transparent-hugepages defaults
