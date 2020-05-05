@@ -1,9 +1,15 @@
 ---
 # handlers file for mongodb
 - name: restart mongodb service
-  service:
+  systemd:
     name: mongod
     state: restarted
     enabled: yes
 - name: configure disable-transparent-hugepages
-  shell: update-rc.d disable-transparent-hugepages defaults
+  systemd:
+    name: disable-transparent-hugepages
+    state: started
+    enabled: yes
+    daemon_reload: yes
+# - name: configure disable-transparent-hugepages
+#   shell: update-rc.d disable-transparent-hugepages defaults
