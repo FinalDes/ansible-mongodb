@@ -1,4 +1,13 @@
 ---
+- name: pre install packages
+  apt:
+     name: "{{packages}}"
+     state: present
+     update_cache: true
+  vars:
+     packages:
+      - apt-transport-https
+      - gnupg
 - name: Import the public key
   apt_key:
     url: 'https://www.mongodb.org/static/pgp/server-{{ version }}.asc'
@@ -17,9 +26,6 @@
     filename: 'mongodb'
     update_cache: no
   when: ansible_distribution == 'Debian'
-- name: install mongodb
-  apt:
-    update_cache: yes
 - name: install mongodb
   apt:
     name: mongodb-org
