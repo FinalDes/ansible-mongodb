@@ -34,6 +34,8 @@ jobs:
           python-version: ${{ matrix.python-version }}
       - name: Install dependencies
         run: python3 -m pip install 'molecule[docker]'
+      - name: check molecule exists
+        run: molecule --version
       - name: Run mongodb 4.2 test
         run: molecule test --scenario-name 4.2
       # - name: Run mongodb ${{test-version}} test
