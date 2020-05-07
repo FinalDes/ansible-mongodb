@@ -6,9 +6,9 @@ on:
       - master
   push:
     branches:
-      - 'master'
-      - 'test'
-      - 'create-workflow/*'
+      - master
+      - test
+      - create-workflow/*
 jobs:
   test:
     runs-on: ubuntu-18.04
