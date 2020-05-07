@@ -27,7 +27,7 @@ script:
   - molecule test --scenario-name 3.6
   - molecule test --scenario-name 3.4
   - molecule test --scenario-name 3.2
-  - molecule test --scenario-name 3.0
+  # - molecule test --scenario-name 3.0
   # Basic role syntax check
   # - ansible-playbook tests/test.yml -i tests/inventory --syntax-check
 
