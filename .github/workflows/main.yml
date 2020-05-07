@@ -36,5 +36,5 @@ jobs:
         run: python3 -m pip install 'molecule[docker]'
       - name: check molecule exists
         run: molecule --version
-      - name: Run mongodb ${{test-version}} test
-        run: molecule test --scenario-name ${{matrix.config.test-version}}
+      - name: Run mongodb ${{matrix.test-version}} test
+        run: molecule test --scenario-name ${{matrix.test-version}}
