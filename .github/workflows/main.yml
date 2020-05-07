@@ -26,8 +26,8 @@ jobs:
         #   - 3.2
     steps:
       - uses: actions/checkout@v2.1.0
-        with:
-          path: molecule_demo
+        # with:
+        #   path: molecule_demo
       - name: Set up Python ${{ matrix.python-version }}
         uses: actions/setup-python@v2
         with:
