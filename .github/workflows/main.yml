@@ -18,12 +18,12 @@ jobs:
           - ubuntu-18.04
         python-version:
           - 3.6
-        # test-version:
-        #   - 4.2
-        #   - 4.0
-        #   - 3.6
-        #   - 3.4
-        #   - 3.2
+        test-version:
+          - 4.2
+          - 4.0
+          - 3.6
+          - 3.4
+          - 3.2
     steps:
       - uses: actions/checkout@v2.1.0
         # with:
@@ -36,9 +36,7 @@ jobs:
         run: python3 -m pip install 'molecule[docker]'
       - name: check molecule exists
         run: molecule --version
-      - name: Run mongodb 4.2 test
-        run: molecule test --scenario-name 4.2
-      # - name: Run mongodb ${{test-version}} test
-      #   run: molecule test --scenario-name ${{matrix.test-version}}
-      # - name: Run mongodb 3.0 test
-      #   run: molecule test --scenario-name 3.0
+      # - name: Run mongodb 4.2 test
+      #   run: molecule test --scenario-name 4.2
+      - name: Run mongodb ${{test-version}} test
+        run: molecule test --scenario-name ${{matrix.test-version}}
