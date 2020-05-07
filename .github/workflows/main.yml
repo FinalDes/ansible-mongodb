@@ -1,39 +1,44 @@
----
-name: Molecule Test
+name: Ansible-Test
+
 on:
+  pull_request:
+    branches:
+      - master
   push:
     branches:
       - master
       - test
       - create-workflow/*
 jobs:
-  build:
-    runs-on: ubuntu-latest
-    strategy:
-      max-parallel: 4
-      matrix:
-        python-version:
-          - 3.6
-        test-version:
-          - 4.2
-          - 4.0
-          - 3.6
-          - 3.4
-          - 3.2
+  test:
+    runs-on: ubuntu-18.04
+    # strategy:
+      # matrix:
+      #   os:
+      #     - ubuntu-18.04
+      #   python-version:
+      #     - 3.6
     steps:
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v2.1.0
+        # with:
+        #   path: molecule_demo
+      - name: Set up Python 3.6
+        uses: actions/setup-python@v2
         with:
-          path: molecule_demo
-      - name: Set up Python ${{ matrix.python-version }}
-        uses: actions/setup-python@v1
-        with:
-          python-version: ${{ matrix.python-version }}
+          python-version: 3.6
       - name: Install dependencies
-        run: |
-          sudo apt install docker
-          python3 -m pip install --upgrade pip
-          python3 -m pip install 'molecule[docker]'
-      - name: Run mongodb ${{test-version}} test
-        run: molecule test --scenario-name ${{test-version}}
-      # - name: Run mongodb 3.0 test
-      #   run: molecule test --scenario-name 3.0
+        run: python3 -m pip install 'molecule[docker]'
+      - name: check molecule exists
+        run: molecule --version
+      - name: Run mongodb 4.2 test
+        run: molecule test --scenario-name 4.2
+      - name: Run mongodb 4.0 test
+        run: molecule test --scenario-name 4.0
+      - name: Run mongodb 3.6 test
+        run: molecule test --scenario-name 3.6
+      - name: Run mongodb 3.4 test
+        run: molecule test --scenario-name 3.4
+      - name: Run mongodb 3.2 test
+        run: molecule test --scenario-name 3.2
+      # - name: Run mongodb ${{test-version}} test
+      #   run: molecule test --scenario-name ${{matrix.config.test-version}}
