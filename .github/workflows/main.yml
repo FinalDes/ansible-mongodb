@@ -1,5 +1,6 @@
 ---
 name: Molecule Test
+
 on:
   push:
     branches:
@@ -8,10 +9,12 @@ on:
       - create-workflow/*
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ${{matrix.os}}
     strategy:
       max-parallel: 4
       matrix:
+        os:
+          - ubuntu-18.04
         python-version:
           - 3.6
         test-version:
@@ -34,6 +37,6 @@ jobs:
           python3 -m pip install --upgrade pip
           python3 -m pip install 'molecule[docker]'
       - name: Run mongodb ${{test-version}} test
-        run: molecule test --scenario-name ${{test-version}}
+        run: molecule test --scenario-name ${{matrix.test-version}}
       # - name: Run mongodb 3.0 test
       #   run: molecule test --scenario-name 3.0
