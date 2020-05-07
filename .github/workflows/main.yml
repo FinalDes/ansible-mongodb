@@ -1,4 +1,4 @@
-name: Molecule Test
+name: Ansible-Test
 
 on:
   pull_request:
