@@ -11,21 +11,21 @@ on:
       - 'create-workflow/*'
 jobs:
   test:
-    runs-on: ${{matrix.os}}
-    strategy:
-      matrix:
-        os:
-          - ubuntu-18.04
-        python-version:
-          - 3.6
+    runs-on: ubuntu-18.04
+    # strategy:
+      # matrix:
+      #   os:
+      #     - ubuntu-18.04
+      #   python-version:
+      #     - 3.6
     steps:
       - uses: actions/checkout@v2.1.0
         # with:
         #   path: molecule_demo
-      - name: Set up Python ${{ matrix.python-version }}
+      - name: Set up Python 3.6
         uses: actions/setup-python@v2
         with:
-          python-version: ${{ matrix.python-version }}
+          python-version: 3.6
       - name: Install dependencies
         run: python3 -m pip install 'molecule[docker]'
       - name: check molecule exists
