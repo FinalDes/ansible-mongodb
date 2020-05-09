@@ -12,26 +12,29 @@ addons:
 
 install:
   # Install ansible
-  - pip install ansible molecule[docker]
+  - pip install -r requirements.txt
 
   # Check ansible version
-  - ansible --version
+  # - ansible --version
 
   # Create ansible.cfg with correct roles_path
   # - printf '[defaults]\nroles_path=../' >ansible.cfg
 
 script:
+  # Basic role syntax check
+  # - ansible-playbook tests/test.yml -i tests/inventory --syntax-check
+  #check linting
+  - yamllint .
+  - ansible-lint
+    # test ansible roles
   - molecule test --scenario-name 4.2
   - molecule test --scenario-name 4.0
   - molecule test --scenario-name 3.6
   - molecule test --scenario-name 3.4
   - molecule test --scenario-name 3.2
-  # - molecule test --scenario-name 3.0
-  # Basic role syntax check
-  # - ansible-playbook tests/test.yml -i tests/inventory --syntax-check
 
 notifications:
   webhooks: https://galaxy.ansible.com/api/v1/notifications/
 
-cache: 
-  pip: true
+cache:
+  pip: true  
