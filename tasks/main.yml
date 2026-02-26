@@ -1,50 +1,59 @@
 ---
-- name: pre install packages
-  apt:
-     name: "{{packages}}"
-     state: present
-     update_cache: true
+- name: Pre install packages
+  ansible.builtin.apt:
+    name: "{{ packages }}"
+    state: present
+    update_cache: true
   vars:
-     packages:
+    packages:
       - apt-transport-https
       - gnupg
-- name: Import the public key
-  apt_key:
-    url: 'https://www.mongodb.org/static/pgp/server-{{ version }}.asc'
-    id: '{{ key[version] }}'
-- name: add repository ubuntu
-  apt_repository:
-    repo: 'deb [ arch=amd64,arm64 ] https://repo.mongodb.org/apt/ubuntu {{ ansible_distribution_release }}/mongodb-org/{{ version }} multiverse'
+# - name: Import the public key
+#   ansible.builtin.apt_key:
+#     url: "https://www.mongodb.org/static/pgp/server-{{ mongodb_version }}.asc"
+#     id: "{{ key[mongodb_version] }}"
+- name: Add repository ubuntu
+  ansible.builtin.deb822_repository:
+    name: mongodb
+    uris: "https://repo.mongodb.org/apt/ubuntu"
+    suites: "{{ ansible_facts['distribution_release'] }}/mongodb-org/{{ mongodb_version }}"
+    components: "multiverse"
+    architectures: "amd64,arm64"
+    signed_by: "https://www.mongodb.org/static/pgp/server-{{ mongodb_version }}.asc"
     state: present
-    filename: 'mongodb'
-    update_cache: no
-  when: ansible_distribution == 'Ubuntu'
-- name: add repository debian
-  apt_repository:
-    repo: 'deb http://repo.mongodb.org/apt/debian {{ ansible_distribution_release }}/mongodb-org/{{ version }} multiverse'
+    enabled: true
+  when: ansible_facts['distribution'] == 'Ubuntu'
+- name: Add repository debian
+  ansible.builtin.deb822_repository:
+    name: mongodb
+    uris: "http://repo.mongodb.org/apt/debian"
+    suites: "{{ ansible_facts['distribution_release'] }}/mongodb-org/{{ mongodb_version }}"
+    components: "multiverse"
+    architectures: "amd64,arm64"
+    signed_by: "https://www.mongodb.org/static/pgp/server-{{ mongodb_version }}.asc"
     state: present
-    filename: 'mongodb'
-    update_cache: no
-  when: ansible_distribution == 'Debian'
-- name: install mongodb
-  apt:
+    enabled: true
+  when: ansible_facts['distribution'] == 'Debian'
+- name: Install mongodb
+  ansible.builtin.apt:
     name: mongodb-org
     state: present
-    update_cache: yes
-- name: start mongodb service
-  service:
+    update_cache: true
+- name: Start mongodb service
+  ansible.builtin.systemd:
     name: mongod
     state: started
-    enabled: yes
-- name: copy disable-transparent-hugepages script
-  copy:
-    src: "{{ role_path }}/files/disable-transparent-hugepages.systemd"
-    dest: "/etc/systemd/system/disable-transparent-hugepages.service"
+    enabled: true
+- name: Copy enable-transparent-hugepages script
+  ansible.builtin.copy:
+    src: "{{ role_path }}/files/enable-transparent-hugepages.systemd"
+    dest: "/etc/systemd/system/enable-transparent-hugepages.systemd"
     owner: root
     group: root
-    mode: '0755'
+    mode: "0755"
+  when: enable_transparent_hugepages
   notify:
-    - configure disable-transparent-hugepages
+    - configure enable-transparent-hugepages
 # - name: copy disable-transparent-hugepages script
 #   copy:
 #     src: "{{ role_path }}/files/disable-transparent-hugepages"
@@ -55,12 +64,15 @@
 #   notify:
 #     - configure disable-transparent-hugepages
 # /etc/systemd/system/disable-transparent-huge-pages.service
-- name: check mongodb online
-  wait_for:
+- name: Check mongodb online
+  ansible.builtin.wait_for:
     port: 27017
     delay: 1
-- name: config mongodb
-  template:
+- name: Config mongodb
+  ansible.builtin.template:
     src: "{{ role_path }}/files/mongod.conf.j2"
     dest: "{{ config_path }}"
+    owner: mongodb
+    group: mongodb
+    mode: "0640"
   when: config_path is defined
