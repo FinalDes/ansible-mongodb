@@ -46,14 +46,14 @@
     enabled: true
 - name: Copy enable-transparent-hugepages script
   ansible.builtin.copy:
-    src: "{{ role_path }}/files/enable-transparent-hugepages.systemd"
-    dest: "/etc/systemd/system/enable-transparent-hugepages.systemd"
+    src: "{{ role_path }}/files/enable-transparent-huge-pages.service"
+    dest: "/etc/systemd/system/enable-transparent-huge-pages.service"
     owner: root
     group: root
     mode: "0755"
   when: enable_transparent_hugepages
   notify:
-    - configure enable-transparent-hugepages
+    - Configure enable-transparent-hugepages
 # - name: copy disable-transparent-hugepages script
 #   copy:
 #     src: "{{ role_path }}/files/disable-transparent-hugepages"
@@ -76,3 +76,5 @@
     group: mongodb
     mode: "0640"
   when: config_path is defined
+  notify:
+    - Restart mongodb service

@@ -8,8 +8,9 @@
     daemon_reload: true
 - name: Configure enable-transparent-hugepages
   ansible.builtin.systemd:
-    name: enable-transparent-hugepages
+    name: enable-transparent-huge-pages
     state: started
     enabled: true
+    daemon_reload: true
 # - name: configure disable-transparent-hugepages
 #   shell: update-rc.d disable-transparent-hugepages defaults

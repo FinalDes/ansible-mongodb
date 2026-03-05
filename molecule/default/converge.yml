@@ -30,6 +30,7 @@
     - name: Install mongodb
       role: ansible-mongodb
       mongodb_version: "8.0"
+      enable_transparent_hugepages: true
       become: true
       # uv_skip_cleanup: true
   # tasks:

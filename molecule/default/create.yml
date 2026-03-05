@@ -15,7 +15,7 @@
         state: started
         # command: sleep 1d
         command: /lib/systemd/systemd --system --log-level=info --log-target=console
-        cgroupns_mode: private
+        cgroupns_mode: host
         security_opts:
           - seccomp=unconfined
         log_driver: json-file
@@ -24,9 +24,9 @@
           - "/tmp:/tmp"
           # - "/run:/run"
         privileged: true
-        tmpfs:
-          - /run
-          - /run/lock
+        # tmpfs:
+        #   - /run
+        #   - /run/lock
         env:
           container: docker
       register: result
