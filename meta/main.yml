@@ -4,7 +4,7 @@ galaxy_info:
   description: Basic MongoDB Setup
   namespace: finaldes
   role_name: ansible_mongodb
-
+  # company: your company (optional)
   # If the issue tracker for your role is not on github, uncomment the
   # next line and provide a value
   # issue_tracker_url: http://example.com/issue/tracker

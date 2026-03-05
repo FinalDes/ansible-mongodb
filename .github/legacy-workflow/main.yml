@@ -32,9 +32,24 @@ jobs:
         uses: actions/setup-python@v2
         with:
           python-version: 3.6
+      - uses: actions/cache@v1
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-pip-
       - name: Install dependencies
-        run: python3 -m pip install 'molecule[docker]'
-      - name: check molecule exists
-        run: molecule --version
-      - name: Run mongodb ${{matrix.version}} test
+        run: pip3 install -r requirements.txt
+      - name: check yaml linting
+        run: yamllint .
+      - name: check ansible lint
+        run: ansible-lint
+      - name: set ansible config
+        run: printf '[defaults]\nroles_path=../' >ansible.cfg
+      - name: ansible syntax-check
+        run: ansible-playbook tests/test.yml -i tests/inventory --syntax-check
+      - name: Run docker ${{matrix.version}} test
         run: molecule test --scenario-name ${{matrix.version}}
+        env:
+          PY_COLORS: '1'
+          ANSIBLE_FORCE_COLOR: '1'
