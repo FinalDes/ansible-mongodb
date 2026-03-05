@@ -13,7 +13,6 @@
         name: "{{ item.name }}"
         image: "{{ item.image }}"
         state: started
-        # command: sleep 1d
         command: /lib/systemd/systemd --system --log-level=info --log-target=console
         cgroupns_mode: host
         security_opts:
@@ -22,11 +21,7 @@
         volumes:
           - "/sys/fs/cgroup:/sys/fs/cgroup:rw"
           - "/tmp:/tmp"
-          # - "/run:/run"
         privileged: true
-        # tmpfs:
-        #   - /run
-        #   - /run/lock
         env:
           container: docker
       register: result
